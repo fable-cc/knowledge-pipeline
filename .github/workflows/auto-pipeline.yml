@@ -1,0 +1,26 @@
+# 景一知识管线 · 每日自动运行
+name: 🤖 自动知识管线
+
+on:
+  schedule:
+    - cron: '57 0 * * *'    # 每天 8:57 北京时间
+  workflow_dispatch:          # 手动触发
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 运行管线
+        run: python3 auto_pipeline.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 结果
+        run: echo "✅ 管线完成 — 查看 fable-cc.github.io/fable-castle"
