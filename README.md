@@ -6,6 +6,9 @@
   <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/🏰_寓言城堡-知识框架-8B5E3C?style=flat-square" /></a>
   <a href="https://github.com/fable-cc/fable-cc"><img src="https://img.shields.io/badge/👤_景一-Profile-181717?style=flat-square&logo=github" /></a>
   <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/docs-在线文档-6366F1?style=flat-square" /></a>
+  <img src="https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/status-活跃开发-brightgreen?style=flat-square" />
 </p>
 
 > ⚡ 这是 [景一寓言城堡](https://fable-cc.github.io/fable-castle) 的自动化引擎。知识框架在城堡，抓取/分类/改写逻辑在这里。
