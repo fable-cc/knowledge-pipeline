@@ -1,0 +1,19 @@
+{
+  "name": "景一 · 知识管道",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {}
+  },
+  "postCreateCommand": "pip install -e . && echo '✅ 知识管道就绪'",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md"]
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  }
+}
