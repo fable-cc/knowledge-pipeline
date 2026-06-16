@@ -17,7 +17,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 运行管线
+      - name: 安装依赖
+        run: pip install -e .
+
+      - name: 运行全管线（抓取→分类→去重→质量→改写→输出）
+        run: python3 -m src.main --dry-run
+        env:
+          ANTHROPIC_AUTH_TOKEN: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+          ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          ANTHROPIC_MODEL: ${{ secrets.ANTHROPIC_MODEL }}
+
+      - name: 运行本地管线（扫描→下载→冶炼）
         run: python3 auto_pipeline.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
