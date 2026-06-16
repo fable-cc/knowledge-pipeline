@@ -120,10 +120,23 @@ def smelt():
     print(f"  ✅ 冶炼模板 → {smelted_file}")
     return 1
 
-# ===== 步骤4: 推送 =====
+# ===== 步骤4: Obsidian蒸馏 → GitHub =====
+def distill():
+    """将Obsidian内容蒸馏冶炼到GitHub"""
+    print("🔥 步骤4/5: Obsidian→GitHub蒸馏...")
+    result = subprocess.run(
+        [sys.executable, str(Path(__file__).parent / "src/obsidian_distiller.py")],
+        capture_output=True, text=True
+    )
+    print(result.stdout)
+    if result.returncode != 0:
+        print(f"  ⚠️ {result.stderr[:200]}")
+    return result.returncode == 0
+
+# ===== 步骤5: 推送 =====
 def publish():
     """推送精选内容到寓言城堡网站"""
-    print("🚀 步骤4/4: 推送网站...")
+    print("🚀 步骤5/5: 推送网站...")
 
     if not WEBSITE_REPO.exists():
         print("  ⚠️ 网站仓库不存在")
@@ -158,6 +171,7 @@ def main():
     scan()
     download()
     smelt()
+    distill()
     publish()
 
     print("\n🎉 管线完成！查看：")
