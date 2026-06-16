@@ -1,6 +1,14 @@
-# 知识付费内容聚合 Pipeline
+# 🛠️ 知识付费内容聚合 Pipeline
 
-> 景一的自动化知识引擎 — 多平台抓取 → 分类 → 去重 → 质量过滤 → 去AI味改写 → Obsidian 输出
+> **景一的自动化知识引擎** — 多平台抓取 → 分类 → 去重 → 质量过滤 → 去AI味改写 → Obsidian 输出
+
+<p align="center">
+  <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/🏰_寓言城堡-知识框架-8B5E3C?style=flat-square" /></a>
+  <a href="https://github.com/fable-cc/fable-cc"><img src="https://img.shields.io/badge/👤_景一-Profile-181717?style=flat-square&logo=github" /></a>
+  <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/docs-在线文档-6366F1?style=flat-square" /></a>
+</p>
+
+> ⚡ 这是 [景一寓言城堡](https://fable-cc.github.io/fable-castle) 的自动化引擎。知识框架在城堡，抓取/分类/改写逻辑在这里。
 
 ## 架构
 
