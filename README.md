@@ -1,177 +1,152 @@
-# 🛠️ 知识付费内容聚合 Pipeline
+# 🛠️ Knowledge Pipeline
 
-> **景一的自动化知识引擎** — 多平台抓取 → 分类 → 去重 → 质量过滤 → 去AI味改写 → Obsidian 输出
+> 面向个人知识库与公开内容资产的自动化整理管道。  
+> 用于把公开资料、笔记和候选选题整理为可分类、可去重、可评估、可输出的知识素材。
 
 <p align="center">
-  <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/🏰_寓言城堡-知识框架-8B5E3C?style=flat-square" /></a>
-  <a href="https://github.com/fable-cc/fable-cc"><img src="https://img.shields.io/badge/👤_景一-Profile-181717?style=flat-square&logo=github" /></a>
-  <a href="https://fable-cc.github.io/fable-castle"><img src="https://img.shields.io/badge/docs-在线文档-6366F1?style=flat-square" /></a>
+  <a href="https://fable-castle.com/"><img src="https://img.shields.io/badge/景一的寓言城堡-fable--castle.com-245C88?style=flat-square" /></a>
+  <a href="https://fable-castle.com/github-trust/"><img src="https://img.shields.io/badge/GitHub信任基建-公开可验证-181717?style=flat-square&logo=github" /></a>
   <img src="https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" />
-  <img src="https://img.shields.io/badge/status-活跃开发-brightgreen?style=flat-square" />
 </p>
 
-> ⚡ 这是 [景一寓言城堡](https://fable-cc.github.io/fable-castle) 的自动化引擎。知识框架在城堡，抓取/分类/改写逻辑在这里。
+## 这是什么
 
-## 架构
+Knowledge Pipeline 是景一 fable 用来整理知识素材的自动化管道。它把公开来源、个人笔记和候选选题，经过分类、去重、质量评估和格式化输出，沉淀到 Obsidian 或其他知识库目录中。
 
+它不是“自动搬运工具”，也不鼓励绕过平台规则抓取内容。公开使用时，请只处理：
+
+- 自己拥有版权或授权处理的内容；
+- 明确允许抓取、引用或再处理的公开资料；
+- 仅用于个人研究、摘要、分类和索引的材料；
+- 已经完成脱敏的业务资料。
+
+## 工作流
+
+```text
+公开资料 / 个人笔记 / 候选选题
+    ↓
+来源记录与去重
+    ↓
+主题分类与质量评估
+    ↓
+摘要、标签、证据与限制说明
+    ↓
+Obsidian / Markdown / 数据文件输出
+    ↓
+人工复核后进入内容资产库
 ```
-多平台抓取 (B站/知乎/公众号)
-    │   3 平台并发，asyncio + httpx
-    ▼
-LLM 分类 (8大类 50+子类)
-    │   并发 LLM 调用，Semaphore 限流
-    ▼
-去重 (URL + 标题相似度)
-    │   SQLite 持久化
-    ▼
-质量过滤 (启发式 + LLM 5维评分)
-    │   两阶段：快速规则 + 深度评估
-    ▼
-去AI味改写 (景一风格)
-    │   心理学概念 + 国学引用 + 金句生成
-    ▼
-Obsidian 输出 (Frontmatter + 分类目录)
-    │   Claude-商业蒸馏/ 分目录
-    ▼
-图片生成 (即梦提示词 → dreamina CLI)
-```
+
+## 适合做什么
+
+- 给个人知识库建立统一分类体系；
+- 将公开资料整理成可检索的研究素材；
+- 为内容创作准备选题、摘要和证据卡片；
+- 给 GEO / AI 可见度项目准备“可验证的内容底稿”；
+- 把零散笔记沉淀成可维护的知识资产。
+
+## 不适合做什么
+
+- 不用于绕过登录、付费墙、验证码或平台访问限制；
+- 不用于复制、洗稿或批量发布他人内容；
+- 不用于处理未授权客户数据、个人隐私或敏感信息；
+- 不承诺自动生成内容的事实正确性、原创性或合规性；
+- 不承诺任何搜索排名、收录或 AI 引用结果。
 
 ## 快速开始
 
-### 1. 环境配置
+### 1. 安装依赖
 
 ```bash
-# 克隆仓库
-git clone <repo-url>
+git clone https://github.com/fable-cc/knowledge-pipeline.git
 cd knowledge-pipeline
 
-# 安装依赖
 pip install -r requirements.txt
 # 或使用 uv
 uv pip install -e .
+```
 
-# 设置 API 密钥
+### 2. 配置环境变量
+
+```bash
 cp .env.example .env
-# 编辑 .env，填入你的 DeepSeek API 密钥
-export ANTHROPIC_AUTH_TOKEN=sk-your-key-here
 ```
 
-### 2. 配置平台和关键词
+编辑 `.env`，填入你自己的模型服务配置。不要把真实密钥提交到 GitHub。
 
-编辑 `config/platforms.yaml`：
-- 启用/禁用平台
-- 设置每个平台的关键词
-- 调整每日抓取上限
-
-编辑 `config/categories.yaml`：
-- 调整分类体系
-- 修改质量阈值
-
-### 3. 运行
+示例：
 
 ```bash
-# 完整运行
-python main.py
+export LLM_API_KEY="your-llm-api-key"
+export LLM_MODEL="your-model-name"
+```
 
-# 预览模式（不写入 Obsidian）
+### 3. 运行预览
+
+```bash
 python main.py --dry-run
-
-# 只跑指定平台
-python main.py --platform bilibili
-
-# 调试模式（禁用并发）
-python main.py --no-parallel --dry-run
-
-# 自定义 Obsidian vault 路径
-python main.py --vault /path/to/your/vault
 ```
 
-### 4. 生成配图
+### 4. 输出到知识库
 
 ```bash
-# 批量生图（读取已产出文章的即梦提示词）
-python -m src.generate_images
-
-# 预览模式
-python -m src.generate_images --dry-run
-
-# 指定比例和数量
-python -m src.generate_images --ratio 9:16 --limit 3
+python main.py --vault /path/to/your/vault
 ```
 
 ## 目录结构
 
-```
+```text
 knowledge-pipeline/
-├── main.py                  # 顶层入口
-├── pyproject.toml           # 项目元数据 + CLI 入口点
-├── .env.example             # 环境变量模板
+├── main.py
+├── pyproject.toml
+├── .env.example
 ├── config/
-│   ├── platforms.yaml       # 平台配置（关键词、开关、限流）
-│   ├── categories.yaml      # 分类体系（8大类 + 质量阈值）
+│   ├── platforms.yaml
+│   ├── categories.yaml
 │   └── prompts/
-│       ├── classify.txt     # 分类器 LLM prompt
-│       ├── quality.txt      # 质量评估 LLM prompt
-│       └── humanize.txt     # 景一风格改写 LLM prompt
 ├── src/
-│   ├── main.py              # Pipeline 编排器 (async)
-│   ├── utils.py             # LLM客户端 + 配置加载 + 工具函数
-│   ├── classifier.py        # 内容分类器
-│   ├── dedup.py             # 去重追踪器 (SQLite)
-│   ├── quality.py           # 质量过滤 (两阶段)
-│   ├── humanizer.py         # 去AI味改写器
-│   ├── writer.py            # Obsidian 输出写入器
-│   ├── generate_images.py   # 即梦生图脚本
+│   ├── main.py
+│   ├── utils.py
+│   ├── classifier.py
+│   ├── dedup.py
+│   ├── quality.py
+│   ├── humanizer.py
+│   ├── writer.py
 │   └── scrapers/
-│       ├── base.py          # 抽象基类 + ScrapedArticle 数据类
-│       ├── utils.py         # 共享工具 (UA轮换, 限流, HTML清洗)
-│       ├── bilibili.py      # B站搜索 API 抓取器
-│       ├── zhihu.py         # 知乎搜索页解析器
-│       └── wechat_sogou.py  # 搜狗微信搜索抓取器
-├── data/                    # 运行时数据 (gitignored)
-│   ├── seen_urls.db         # 去重数据库
-│   └── generated_images.json # 生图追踪
-├── logs/                    # 运行日志 (gitignored)
-│   └── pipeline_YYYY-MM-DD.log
-└── tests/                   # 测试 (待补充)
+├── data/
+├── logs/
+└── tests/
 ```
 
-## 设计决策
+## 合规与脱敏边界
 
-### 为什么用异步而不是多线程？
-- 爬虫和 LLM 调用都是 I/O 密集型，`asyncio` 比多线程开销更小
-- 3 个平台并发抓取 + 关键字间 Semaphore 限流，避免触发反爬
-- LLM 分类和质量评估天然独立，并发后吞吐量提升 3-4x
+公开仓库只保留方法、结构、示例配置和可复用代码，不应包含：
 
-### 为什么分类和质量用 LLM 而不是机器学习模型？
-- 中文内容理解需要语义深度，关键词匹配准确率太低
-- LLM 可以直接输出结构化 JSON，无需额外解析层
-- 成本可控：每篇 800 字摘要 + 1024 token 输出，约 0.001 元/次
+- 真实 API 密钥、Cookie、Token、登录态；
+- 未授权客户数据、个人联系方式、订单、聊天记录；
+- 付费交付中的私有提示词、私有规则或客户报告；
+- 违反平台服务条款的自动化访问逻辑；
+- 未标注来源、时间和限制的结论。
 
-### 为什么 Humanizer 保持串行？
-- 改写质量是核心价值，需要完整上下文
-- 每篇输出 600-1000 字，LLM 生成时间远超过网络延迟
-- 串行输出更便于实时观察质量、及时调整
+如果用于商业项目，请在每次输出前保留：
 
-## 扩展指南
+| 字段 | 说明 |
+|---|---|
+| source_url | 原始来源 |
+| collected_at | 采集或整理时间 |
+| license_or_permission | 授权、许可或使用边界 |
+| transformation | 做了摘要、分类、翻译、改写还是结构化 |
+| human_reviewed | 是否经过人工复核 |
 
-### 添加新平台
+## 与景一的业务关系
 
-1. 在 `src/scrapers/` 下创建新文件，继承 `BaseScraper`
-2. 实现 `platform_name` 和 `search_keywords()` 方法
-3. 在 `src/main.py` 的 `scrapers_map` 中注册
-4. 在 `config/platforms.yaml` 中添加配置
+Knowledge Pipeline 是景一 fable 的 B 级公开信任资产：它证明内容资产化和自动化整理能力，但不是对外主入口。主入口仍然是：
 
-### 添加新的 LLM Provider
-
-编辑 `src/utils.py` 的 `LLMClient`：
-```python
-self.base_url = "https://api.openai.com/v1"
-self.model = "gpt-4o"
-# 对应调整 call() 中的请求格式
-```
+- 官网：https://fable-castle.com/
+- AI 可见度诊断：https://fable-castle.com/diagnosis/
+- GitHub 信任基建：https://fable-castle.com/github-trust/
+- AI 读取入口：https://fable-castle.com/llms.txt
 
 ## License
 
-MIT
+MIT © 景一 fable
