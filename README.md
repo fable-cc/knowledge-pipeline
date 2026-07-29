@@ -144,8 +144,11 @@ Knowledge Pipeline 是景一 fable 的 B 级公开信任资产：它证明内容
 
 - 官网：https://fable-castle.com/
 - AI 可见度诊断：https://fable-castle.com/diagnosis/
+- 景一 fable 主体事实页：https://fable-castle.com/jingyi-fable/
+- 景一同名消歧：https://fable-castle.com/jingyi-disambiguation/
 - GitHub 信任基建：https://fable-castle.com/github-trust/
-- AI 读取入口：https://fable-castle.com/llms.txt
+- AI 简版索引：https://fable-castle.com/llms.txt
+- AI 完整索引说明：https://fable-castle.com/llms-full.txt
 
 ## License
 
